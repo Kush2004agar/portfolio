@@ -143,30 +143,12 @@ const Index = () => {
 
       <section id="whoami" className="border-b bg-muted/30">
         <div className="container py-8 md:py-10">
-          <h2 className="text-xl md:text-2xl font-bold mb-5">Who Am I</h2>
-          <div className="space-y-4 text-muted-foreground leading-relaxed max-w-4xl text-sm md:text-base">
-            <p>
-              As a software engineer, I&apos;m driven by curiosity and systems thinking, as well as an unyielding need to get a better understanding of
-              the technologies we work with. I specialize in AI engineering, backend programming, and applied machine learning, and I love building things
-              through experimentation and implementation. In particular, I enjoy learning through building, diving deeper into the architectures I work
-              with, and exploring their behaviors.
-            </p>
-            <p>
-              Through projects that I&apos;ve done over time, including Retrieval-Augmented Generation, Diffusion Models, Deep Learning, Fraud Detection,
-              Time Series Forecasting, and others, my interest in systems engineering, architecture design, and production-oriented AI development has been
-              sharpened. While some of those projects involved using existing libraries and tools, I&apos;ve always made sure to grasp the mechanics and the
-              design choices behind them as well.
-            </p>
-            <p>
-              As far as traits go, I highly value adaptability and discipline and take an iterative approach to engineering. In addition to that, engineering
-              is a learning process for me, and as such, it&apos;s about developing a better understanding of the problems I try to solve and of the approaches
-              available. I want to be a developer who builds reliable and scalable solutions.
-            </p>
-            <p>
-              My hobbies include watching anime, going on trips, and watching movies. I&apos;m particularly fond of gaming as a hobby, too. I spend a
-              considerable amount of time playing video games, especially online battle royales and narrative-heavy single-player games, such as Fortnite.
-            </p>
-          </div>
+          <h2 className="text-xl md:text-2xl font-bold mb-3">Who Am I</h2>
+          <p className="text-muted-foreground leading-relaxed max-w-4xl text-sm md:text-base">
+            Applied AI/ML engineer focused on GenAI systems, RAG pipelines, backend AI integration, and inference optimization.
+            Experienced in building and experimenting with retrieval systems, diffusion model fine-tuning, and scalable AI workflows using modern ML
+            infrastructure tools.
+          </p>
         </div>
       </section>
 
