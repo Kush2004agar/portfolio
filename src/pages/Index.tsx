@@ -98,7 +98,7 @@ const Index = () => {
 
               <div className="flex flex-wrap gap-3 pt-4">
                 <a href="/KUSHAGAR SINGH AHUJA.pdf" download="Kushagar_Singh_Ahuja_Resume.pdf">
-                  <Button variant="hero">
+                  <Button variant="outline">
                     <Download className="w-4 h-4 mr-2" /> Download Resume
                   </Button>
                 </a>
