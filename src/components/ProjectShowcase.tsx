@@ -2,19 +2,16 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   ExternalLink, 
   Github, 
   Eye, 
-  Calendar, 
-  Users, 
-  TrendingUp,
-  Code,
+  Brain,
   Database,
-  Shield,
-  Globe,
-  Brain
+  Cpu,
+  AudioLines,
+  Shield
 } from "lucide-react";
 
 interface Project {
@@ -22,21 +19,11 @@ interface Project {
   title: string;
   subtitle: string;
   description: string;
-  image: string;
   technologies: string[];
   category: string;
-  githubUrl?: string;
-  liveUrl?: string;
-  duration: string;
-  teamSize: string;
-  impact: string;
-  challenges: string[];
-  solutions: string[];
-  metrics?: {
-    accuracy?: string;
-    performance?: string;
-    users?: string;
-  };
+  githubUrl: string;
+  highlights: string[];
+  metrics?: { label: string; value: string }[];
 }
 
 const ProjectShowcase: React.FC = () => {
@@ -44,84 +31,116 @@ const ProjectShowcase: React.FC = () => {
 
   const projects: Project[] = [
     {
+      id: "rag-hybrid",
+      title: "Advanced Hybrid RAG System",
+      subtitle: "Hierarchical Retrieval-Augmented Generation for Technical Document Intelligence",
+      description:
+        "Designed a metadata-aware retrieval pipeline using hierarchical chunk-tree representations, query routing (tree/vector/lexical/hybrid), cross-encoder reranking, and context compression. The system ingests PDFs into structured node graphs, retrieves via ChromaDB vector store, and generates answers through Google Gemini with caching and fallback strategies.",
+      technologies: ["Python", "FastAPI", "ChromaDB", "LLMs", "Docker", "Gemini API"],
+      category: "AI/ML",
+      githubUrl: "https://github.com/Kush2004agar/RAG-vector-hybrid-model",
+      highlights: [
+        "Hierarchical chunk-tree ingestion with parent/child node summaries",
+        "Query routing to select optimal retrieval strategy per query",
+        "Cross-encoder reranking with sentence-transformers on candidate pools",
+        "Context filtering, compression, and deduplication before LLM generation",
+        "Retrieval caching for repeated queries, configurable via environment",
+        "Evaluation tooling with Precision@K, Recall@K, MRR, and nDCG"
+      ],
+      metrics: [
+        { label: "Retrieval Strategies", value: "4 modes" },
+        { label: "Reranking Passes", value: "Up to 3×" },
+        { label: "Scales To", value: "1000+ PDFs" }
+      ]
+    },
+    {
+      id: "flood-forecasting",
+      title: "Flood Risk Intelligence & River Discharge Forecasting",
+      subtitle: "Deep Learning Pipeline for Hydrological Time-Series Prediction",
+      description:
+        "Built a multivariate time-series forecasting pipeline for River Aire discharge prediction. Implemented hybrid BiGRU + Attention architectures for temporal sequence learning, with comprehensive evaluation using standard regression metrics for flood monitoring scenarios.",
+      technologies: ["PyTorch", "Deep Learning", "Time-Series", "NumPy", "Matplotlib"],
+      category: "AI/ML",
+      githubUrl: "https://github.com/Kush2004agar/River-Aire-discharge-modelling",
+      highlights: [
+        "Multivariate forecasting with discharge, precipitation, and weather features",
+        "Hybrid BiGRU + Attention architecture for temporal sequence modeling",
+        "Feature engineering with lag variables and rolling statistics",
+        "Published as research paper at ICACCT'26 conference",
+        "Evaluated with MAE, RMSE, MAPE, and R² metrics"
+      ],
+      metrics: [
+        { label: "Architecture", value: "BiGRU+Attn" },
+        { label: "Publication", value: "ICACCT'26" },
+        { label: "Features", value: "Multivariate" }
+      ]
+    },
+    {
+      id: "diffusion-lora",
+      title: "Diffusion Model LoRA Pipeline",
+      subtitle: "Parameter-Efficient Fine-Tuning for Stable Diffusion Image Generation",
+      description:
+        "Engineered a complete LoRA fine-tuning pipeline for Stable Diffusion, targeting synthetic biometric image generation from 6,000 source images. Integrated data augmentation, validation tracking, latent caching for faster training, EMA weight averaging, and FID evaluation support.",
+      technologies: ["PyTorch", "Stable Diffusion", "LoRA", "TensorBoard", "CUDA"],
+      category: "AI/ML",
+      githubUrl: "https://github.com/Kush2004agar/palm-lora-training",
+      highlights: [
+        "Parameter-efficient LoRA fine-tuning on Stable Diffusion base models",
+        "Data augmentation pipeline with caption generation for training images",
+        "Latent caching for accelerated training iterations",
+        "EMA tracking for UNet LoRA weights with robust checkpointing",
+        "FID evaluation support via torch-fidelity",
+        "Diverse generation flow producing 54,000 synthetic images from 6,000 source"
+      ],
+      metrics: [
+        { label: "Source Images", value: "6,000" },
+        { label: "Generated", value: "54,000" },
+        { label: "Training", value: "~28-80h RTX 3050 4GB (optimized settings)" }
+      ]
+    },
+    {
+      id: "grammar-scoring",
+      title: "Grammar Scoring Engine",
+      subtitle: "Automated Grammar Assessment for Spoken English Audio",
+      description:
+        "Built an explainable grammar scoring system that transcribes spoken English via Whisper ASR, extracts 23 linguistic features using spaCy and LanguageTool, and predicts grammar scores (1-5) with Ridge Regression. Designed with ethical safeguards including bias-awareness documentation and human-oversight recommendations.",
+      technologies: ["Python", "Whisper", "spaCy", "LanguageTool", "scikit-learn"],
+      category: "NLP",
+      githubUrl: "https://github.com/Kush2004agar/Grammar-scoring-engine",
+      highlights: [
+        "End-to-end pipeline: audio → transcription → cleaning → feature extraction → scoring",
+        "23 grammar features including error counts, clause complexity, and agreement analysis",
+        "Disfluency-aware text cleaning preserving actual grammar errors",
+        "Comprehensive error analysis with band-wise performance breakdown",
+        "Ethical framework with bias documentation and fairness guidelines",
+        "10-phase development methodology with reproducible notebooks"
+      ],
+      metrics: [
+        { label: "Features", value: "23" },
+        { label: "MAE", value: "0.59 pts" },
+        { label: "Training Set", value: "409 samples" }
+      ]
+    },
+    {
       id: "fraud-detection",
-      title: "Fraud Detection System",
-      subtitle: "Machine Learning-based Financial Fraud Detection",
-      description: "Developed a sophisticated machine learning system to detect fraudulent transactions in real-time using advanced algorithms and data analysis techniques.",
-      image: "/placeholder.svg",
-      technologies: ["Python", "Scikit-learn", "SMOTE", "Pandas", "NumPy", "Matplotlib"],
+      title: "Fraud Detection ML System",
+      subtitle: "Real-Time Anomaly Detection for Financial Transaction Analysis",
+      description:
+        "Developed a classification pipeline for detecting fraudulent financial transactions using ensemble methods. Applied SMOTE for class imbalance correction, engineered domain-specific features, and optimized hyperparameters across Random Forest and XGBoost models to achieve high detection rates with minimal false positives.",
+      technologies: ["Python", "scikit-learn", "XGBoost", "SMOTE", "Pandas"],
       category: "AI/ML",
       githubUrl: "https://github.com/Kush2004agar/fraud-detection",
-      duration: "3 months",
-      teamSize: "Solo",
-      impact: "Achieved 95% accuracy in fraud detection with 2% false positive rate",
-      challenges: [
-        "Handling imbalanced dataset (fraud cases were only 0.1% of total transactions)",
-        "Real-time processing requirements",
-        "Minimizing false positives while maintaining high detection rate"
+      highlights: [
+        "Ensemble methods combining Random Forest and XGBoost classifiers",
+        "SMOTE oversampling to handle extreme class imbalance (0.1% fraud rate)",
+        "Feature engineering for transaction pattern analysis",
+        "Hyperparameter optimization for precision-recall trade-off",
+        "Real-time inference pipeline with sub-100ms latency"
       ],
-      solutions: [
-        "Implemented SMOTE technique for data balancing",
-        "Used ensemble methods (Random Forest + XGBoost) for better performance",
-        "Applied feature engineering and hyperparameter tuning"
-      ],
-      metrics: {
-        accuracy: "95%",
-        performance: "Real-time processing < 100ms",
-        users: "10,000+ transactions/day"
-      }
-    },
-    {
-      id: "snake-ladder",
-      title: "Snake & Ladder Game",
-      subtitle: "Interactive Web-Based Board Game",
-      description: "Developed a complete Snake & Ladder game with modern web technologies, featuring multiplayer support, interactive UI, and real-time game mechanics.",
-      image: "/placeholder.svg",
-      technologies: ["React", "TypeScript", "CSS", "Vercel", "Web Development"],
-      category: "Programming",
-      githubUrl: "https://github.com/Kush2004agar/snake-ladder",
-      liveUrl: "https://snake-ladder-tawny.vercel.app/",
-      duration: "3 weeks",
-      teamSize: "Solo",
-      impact: "Live web game with multiplayer functionality and modern UI",
-      challenges: [
-        "Creating responsive game board layout",
-        "Implementing real-time dice mechanics",
-        "Managing game state and player turns",
-        "Designing intuitive user interface"
-      ],
-      solutions: [
-        "Used React hooks for state management",
-        "Implemented CSS Grid for responsive board layout",
-        "Created smooth animations and transitions",
-        "Deployed on Vercel for global accessibility"
-      ],
-      metrics: {
-        users: "Live Demo Available",
-        performance: "Real-time gameplay"
-      }
-    },
-    {
-      id: "location-finder",
-      title: "Location Finder",
-      subtitle: "Ethical Hacking Simulation",
-      description: "Created a location tracking system for educational purposes, demonstrating cybersecurity concepts and ethical hacking techniques.",
-      image: "/placeholder.svg",
-      technologies: ["Python", "Network Analysis", "Geolocation", "API Integration"],
-      category: "Security",
-      githubUrl: "https://github.com/Kush2004agar/location-finder",
-      duration: "1 month",
-      teamSize: "Solo",
-      impact: "Educational tool for cybersecurity awareness",
-      challenges: [
-        "Ensuring ethical use and privacy compliance",
-        "Handling rate limits and API restrictions",
-        "Accurate geolocation without violating privacy"
-      ],
-      solutions: [
-        "Implemented strict privacy controls",
-        "Used multiple data sources for accuracy",
-        "Added educational warnings and disclaimers"
+      metrics: [
+        { label: "Accuracy", value: "95%" },
+        { label: "Latency", value: "<100ms" },
+        { label: "False Positive", value: "~2%" }
       ]
     }
   ];
@@ -129,48 +148,40 @@ const ProjectShowcase: React.FC = () => {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "AI/ML": return <Brain className="w-4 h-4" />;
-      case "Programming": return <Code className="w-4 h-4" />;
-      case "Security": return <Shield className="w-4 h-4" />;
-      default: return <Globe className="w-4 h-4" />;
+      case "NLP": return <AudioLines className="w-4 h-4" />;
+      default: return <Cpu className="w-4 h-4" />;
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "AI/ML": return "bg-gradient-to-r from-purple-500 to-pink-500";
-      case "Programming": return "bg-gradient-to-r from-blue-500 to-cyan-500";
-      case "Security": return "bg-gradient-to-r from-red-500 to-orange-500";
-      default: return "bg-gradient-to-r from-gray-500 to-gray-600";
+      case "NLP": return "bg-gradient-to-r from-emerald-500 to-teal-500";
+      default: return "bg-gradient-to-r from-blue-500 to-cyan-500";
     }
   };
 
   return (
-    <section id="projects" className="container py-12">
+    <section id="systems" className="container py-12">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-4">Featured Projects</h2>
+        <h2 className="text-3xl font-bold mb-4">Systems & Infrastructure</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          A showcase of my most impactful projects spanning AI/ML and software development.
+          Production-grade AI systems spanning retrieval infrastructure, deep learning pipelines, and intelligent backend services.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         {projects.map((project) => (
           <Card key={project.id} variant="interactive" className="overflow-hidden">
-            <div className="relative">
-              <img
-                src={project.image}
-                alt={`${project.title} project screenshot`}
-                className="w-full h-48 object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-              <div className={`absolute top-4 left-4 ${getCategoryColor(project.category)} text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1`}>
-                {getCategoryIcon(project.category)}
-                {project.category}
-              </div>
-            </div>
+            <div className={`h-2 ${getCategoryColor(project.category)}`} />
             
             <CardHeader>
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`${getCategoryColor(project.category)} text-white px-2.5 py-0.5 rounded-full text-xs font-medium flex items-center gap-1`}>
+                  {getCategoryIcon(project.category)}
+                  {project.category}
+                </div>
+              </div>
               <CardTitle className="text-xl">{project.title}</CardTitle>
               <p className="text-sm text-muted-foreground">{project.subtitle}</p>
               <div className="flex flex-wrap gap-1 mt-2">
@@ -192,60 +203,41 @@ const ProjectShowcase: React.FC = () => {
                 {project.description}
               </p>
 
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-3 h-3" />
-                  {project.duration}
+              {project.metrics && (
+                <div className="flex flex-wrap gap-3">
+                  {project.metrics.map((m) => (
+                    <div key={m.label} className="text-center">
+                      <div className="text-sm font-semibold">{m.value}</div>
+                      <div className="text-xs text-muted-foreground">{m.label}</div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-1">
-                  <Users className="w-3 h-3" />
-                  {project.teamSize}
-                </div>
-                <div className="flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3" />
-                  {project.impact.split(' ').slice(0, 3).join(' ')}...
-                </div>
-              </div>
+              )}
 
               <div className="flex gap-2">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1"
-                      onClick={() => setSelectedProject(project)}
-                    >
-                      <Eye className="w-4 h-4 mr-1" />
-                      View Details
-                    </Button>
-                  </DialogTrigger>
-                </Dialog>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex-1"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <Eye className="w-4 h-4 mr-1" />
+                  View Details
+                </Button>
                 
-                {project.githubUrl && (
-                  <Button variant="outline" size="sm" asChild>
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-4 h-4" />
-                    </a>
-                  </Button>
-                )}
-                
-                {project.liveUrl && (
-                  <Button variant="outline" size="sm" asChild>
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </Button>
-                )}
+                <Button variant="outline" size="sm" asChild>
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                    <Github className="w-4 h-4" />
+                  </a>
+                </Button>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Project Details Modal */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           {selectedProject && (
             <>
               <DialogHeader>
@@ -253,94 +245,57 @@ const ProjectShowcase: React.FC = () => {
                   {getCategoryIcon(selectedProject.category)}
                   {selectedProject.title}
                 </DialogTitle>
+                <p className="text-sm text-muted-foreground">{selectedProject.subtitle}</p>
               </DialogHeader>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-semibold mb-2">Description</h3>
+                  <h3 className="font-semibold mb-2">Overview</h3>
                   <p className="text-muted-foreground">{selectedProject.description}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Technologies Used</h3>
+                  <h3 className="font-semibold mb-2">Technologies</h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary">
-                        {tech}
-                      </Badge>
+                      <Badge key={tech} variant="secondary">{tech}</Badge>
                     ))}
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="font-semibold mb-2">Challenges</h3>
-                    <ul className="space-y-1 text-sm text-muted-foreground">
-                      {selectedProject.challenges.map((challenge, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-red-500 mt-1">•</span>
-                          {challenge}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-semibold mb-2">Solutions</h3>
-                    <ul className="space-y-1 text-sm text-muted-foreground">
-                      {selectedProject.solutions.map((solution, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-green-500 mt-1">•</span>
-                          {solution}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Technical Highlights</h3>
+                  <ul className="space-y-1.5 text-sm text-muted-foreground">
+                    {selectedProject.highlights.map((h, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-primary mt-0.5">&#8226;</span>
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 {selectedProject.metrics && (
                   <div>
                     <h3 className="font-semibold mb-2">Key Metrics</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {selectedProject.metrics.accuracy && (
-                        <div className="text-center p-3 bg-green-50 rounded-lg">
-                          <div className="text-2xl font-bold text-green-600">{selectedProject.metrics.accuracy}</div>
-                          <div className="text-sm text-muted-foreground">Accuracy</div>
+                    <div className="grid grid-cols-3 gap-4">
+                      {selectedProject.metrics.map((m) => (
+                        <div key={m.label} className="text-center p-3 bg-muted rounded-lg">
+                          <div className="text-lg font-bold">{m.value}</div>
+                          <div className="text-xs text-muted-foreground">{m.label}</div>
                         </div>
-                      )}
-                      {selectedProject.metrics.performance && (
-                        <div className="text-center p-3 bg-blue-50 rounded-lg">
-                          <div className="text-2xl font-bold text-blue-600">{selectedProject.metrics.performance}</div>
-                          <div className="text-sm text-muted-foreground">Performance</div>
-                        </div>
-                      )}
-                      {selectedProject.metrics.users && (
-                        <div className="text-center p-3 bg-purple-50 rounded-lg">
-                          <div className="text-2xl font-bold text-purple-600">{selectedProject.metrics.users}</div>
-                          <div className="text-sm text-muted-foreground">Users</div>
-                        </div>
-                      )}
+                      ))}
                     </div>
                   </div>
                 )}
 
-                <div className="flex gap-2 pt-4">
-                  {selectedProject.githubUrl && (
-                    <Button asChild>
-                      <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="w-4 h-4 mr-2" />
-                        View on GitHub
-                      </a>
-                    </Button>
-                  )}
-                  {selectedProject.liveUrl && (
-                    <Button variant="outline" asChild>
-                      <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Live Demo
-                      </a>
-                    </Button>
-                  )}
+                <div className="pt-2">
+                  <Button asChild>
+                    <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <Github className="w-4 h-4 mr-2" />
+                      View on GitHub
+                    </a>
+                  </Button>
                 </div>
               </div>
             </>
